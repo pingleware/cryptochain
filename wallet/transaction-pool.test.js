@@ -8,7 +8,7 @@ describe('TransactionPool', () => {
 
   beforeEach(() => {
     transactionPool = new TransactionPool();
-    senderWallet = new Wallet();
+    senderWallet = new Wallet("my secret passphrase");
     transaction = new Transaction({
       senderWallet,
       recipient: 'fake-recipient',
@@ -53,7 +53,7 @@ describe('TransactionPool', () => {
         if (i%3===0) {
           transaction.input.amount = 999999;
         } else if (i%3===1) {
-          transaction.input.signature = new Wallet().sign('foo');
+          transaction.input.signature = new Wallet("my secret passphrase").sign('foo');
         } else {
           validTransactions.push(transaction);
         }
@@ -86,7 +86,7 @@ describe('TransactionPool', () => {
       const expectedTransactionMap = {};
 
       for (let i=0; i<6; i++) {
-        const transaction = new Wallet().createTransaction({
+        const transaction = new Wallet("my secret passphrase").createTransaction({
           recipient: 'foo', amount: 20
         });
 

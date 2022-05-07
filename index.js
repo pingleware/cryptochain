@@ -3,7 +3,8 @@ const express = require('express');
 const request = require('request');
 const path = require('path');
 const Blockchain = require('./blockchain');
-const PubSub = require('./app/pubsub');
+//const PubSub = require('./app/pubsub'); // for Redis
+const PubSub = require('./app/pubsub.faye');
 const TransactionPool = require('./wallet/transaction-pool');
 const Wallet = require('./wallet');
 const TransactionMiner = require('./app/transaction-miner');
@@ -19,8 +20,8 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 const app = express();
 const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
-const wallet = new Wallet();
-const pubsub = new PubSub({ blockchain, transactionPool, redisUrl: REDIS_URL });
+const wallet = new Wallet("my secret passphrase");
+const pubsub = new PubSub({ blockchain, transactionPool, redisUrl: REDIS_URL }); // for Redis & Faye
 // const pubsub = new PubSub({ blockchain, transactionPool, wallet }); // for PubNub
 const transactionMiner = new TransactionMiner({ blockchain, transactionPool, wallet, pubsub });
 
@@ -145,8 +146,8 @@ const syncWithRootState = () => {
 };
 
 if (isDevelopment) {
-  const walletFoo = new Wallet();
-  const walletBar = new Wallet();
+  const walletFoo = new Wallet("my secret passphrase");
+  const walletBar = new Wallet("my secret passphrase");
 
   const generateWalletTransaction = ({ wallet, recipient, amount }) => {
     const transaction = wallet.createTransaction({

@@ -8,7 +8,7 @@ describe('Wallet', () => {
   let wallet;
 
   beforeEach(() => {
-    wallet = new Wallet();
+    wallet = new Wallet("my secret passphrase");
   });
 
   it('has a `balance`', () => {
@@ -37,7 +37,7 @@ describe('Wallet', () => {
         verifySignature({
           publicKey: wallet.publicKey,
           data,
-          signature: new Wallet().sign(data)
+          signature: new Wallet("my secret passphrase").sign(data)
         })
       ).toBe(false);
     });
@@ -116,12 +116,12 @@ describe('Wallet', () => {
       let transactionOne, transactionTwo;
 
       beforeEach(() => {
-        transactionOne = new Wallet().createTransaction({
+        transactionOne = new Wallet("my secret passphrase").createTransaction({
           recipient: wallet.publicKey,
           amount: 50
         });
 
-        transactionTwo = new Wallet().createTransaction({
+        transactionTwo = new Wallet("my secret passphrase").createTransaction({
           recipient: wallet.publicKey,
           amount: 60
         });
@@ -177,7 +177,7 @@ describe('Wallet', () => {
 
             blockchain.addBlock({ data: [recentTransaction, sameBlockTransaction] });
 
-            nextBlockTransaction = new Wallet().createTransaction({
+            nextBlockTransaction = new Wallet("my secret passphrase").createTransaction({
               recipient: wallet.publicKey, amount: 75
             });
 
