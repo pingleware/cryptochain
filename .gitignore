@@ -4,3 +4,5 @@
 *.cache*
 *dist*
 *secrets*
+package-lock.json
+._*
