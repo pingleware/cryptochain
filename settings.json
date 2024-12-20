@@ -6,7 +6,7 @@
     "pubsub_server_mainnet_port": 6379,
     "pubsub_server_mainnet": "127.0.0.1",
     "database": {
-        "host": "192.168.0.146",
+        "host": "127.0.0.1",
         "name": "private-ethereum",
         "port": 3306,
         "user": "ethereum",
